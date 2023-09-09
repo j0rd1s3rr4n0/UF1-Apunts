@@ -11,6 +11,7 @@ Carlos Alonso Martínez 2023
 - [Implantació d'arquitectures web](/arquitectura.md)
 - [Administració de servidors web](/servidorweb.md)
 - [Servidors transferències fitxers](/transferencia.md)
+- [Referències](/Referencies.md)
 
 ## Resultats d'avaluació i criteris d'avaluació
 
