@@ -1,4 +1,4 @@
-# UF1-Apunts
+# DAW M08 UF1: Servidors web i de transferència d'arxius
 
 ![logo](./images/uf1-logo.png)
 
@@ -85,3 +85,4 @@ RA3. Administra servidors de transferència de fitxers avaluant i aplicant crite
 ## Atribucions
 
 Aquests materials són parcialment una traducció de *Despliegue de aplicaciones web* elaborat per Sergio Delgado Quintero de l'IES Puerto de la Cruz. La resta de fonts d'informació i de les imatges estan indicades a la secció de [Referències](/Referencies.md).
+
