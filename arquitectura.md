@@ -25,7 +25,7 @@ A més es tracta d'un protocol **sense estat**, això vol dir que el servidor no
 
 El protocol HTTP ha anat evolucionant al llarg dels anys, a continuació es mostren les versions més importants:
 
-- HTTP/1.1: És la versió que es va utilitzar durant l'expansió del WWW. Encara avui dia és utilitzada per diversos servidors web, però es troba en desús respecte versions posteriors.
+- HTTP/1.1: És la versió que es va utilitzar durant l'expansió del ´WWW´. Encara avui dia és utilitzada per diversos servidors web, però es troba en desús respecte versions posteriors.
 - HTTP/2: És la versió actual del protocol, és una versió molt més eficient que la seva antecessora, ja que permet la multiplexació de les peticions, és a dir, permet que el servidor pugui respondre a diverses peticions alhora, cosa que abans no era possible. Aquesta versió també permet la compressió de les dades, cosa que fa que el temps de resposta sigui molt més ràpid.
 - HTTP/3: És la versió més moderna del protocol, encara no està molt estesa, però es preveu que en un futur proper es converteixi en la versió més utilitzada. Aquesta versió utilitza el protocol UDP en comptes del protocol TCP, cosa que fa que el temps de resposta sigui molt més ràpid.
 
