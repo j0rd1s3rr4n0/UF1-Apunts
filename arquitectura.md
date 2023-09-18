@@ -133,7 +133,7 @@ Una implementació típica d'aquesta arquitectura és amb el patró **Model-Vist
 
 ### Arquitectura orientada a serveis
 
-Les aplicacions informàtiques i web modernes són molt més complexes que el model client-servidor. Els serveis web distribuïts, que es configuren com a arquitectures orientades a serveis (SOA), ofereixen moltes funcions i unitats funcionals modulars, que es poden complementar. Amb els SOA, els processos empresarials poden ser automatitzats pels sistemes implicats comunicant-se entre ells, en part sense intervenció humana, i realitzant determinades tasques. Alguns exemples inclouen la banca en línia, el comerç electrònic, aprenentatge electrònic, mercats en línia i aplicacions d'intel·ligència empresarial.
+Les aplicacions informàtiques i web modernes són molt més complexes que el model client-servidor. Els serveis web distribuïts, que es configuren com a arquitectures orientades a serveis (SOA), ofereixen moltes funcions i unitats funcionals modulars, que es poden complementar. Alguns exemples inclouen la banca en línia, el comerç electrònic, aprenentatge electrònic, mercats en línia i aplicacions d'intel·ligència empresarial. Els serveis web basats en [**microserveis**](https://aws.amazon.com/es/microservices/), són una forma d'implementar aquesta arquitectura.
 
 Tot i que és una arquitectura més complexa, presenta alguns avantatges respecte a les anteriors:
 
@@ -141,7 +141,6 @@ Tot i que és una arquitectura més complexa, presenta alguns avantatges respect
 - Interoperabilitat: Els serveis poden ser utilitzats per diferents plataformes.
 - Flexibilitat: Els serveis poden ser modificats sense afectar a les aplicacions que els utilitzen.
 - Escalabilitat: Els serveis poden ser escalats de forma independent.
-
 
 ![Arquitectura orientada a serveis](/images/arquitectura-orientada-a-serveis.png)
 
