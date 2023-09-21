@@ -144,4 +144,10 @@ Tot i que és una arquitectura més complexa, presenta alguns avantatges respect
 
 ![Arquitectura orientada a serveis](/images/arquitectura-orientada-a-serveis.png)
 
+En general, hi ha dos enfocaments:
+
+- **Protocol d'accés a objectes simples (SOAP)**: SOAP  es basa en XML i permet el control de serveis web en forma de trucades de procediment, que es realitzen amb el protocol RPC (remote procedure call). Resumint podem dir que SOAP és un protocol per intercanviar missatges entre sistemes.
+
+- **Transferència d'estat de representació (REST)**: REST és un enfocament similar que s'utilitza per comunicar-se entre màquines en sistemes distribuïts. REST utilitza els mètodes HTTP GET, POST, PUT i DELETE per accedir als recursos.
+
 [Tornar a la taula de continguts](#taula-de-continguts)
