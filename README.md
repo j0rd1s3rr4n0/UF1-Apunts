@@ -9,6 +9,7 @@ Carlos Alonso Martínez 2023
 - [Resultats d'avaluació i criteris d'avaluació](#resultats-davaluació-i-criteris-davaluació)
 - [Atribucions](#atribucions)
 - [Arquitectures web](/arquitectura.md)
+- [Introducció a Docker](/docker.md)
 - [Administració de servidors web](/servidorweb.md)
 - [Servidors transferències fitxers](/transferencia.md)
 - [Referències](/Referencies.md)
@@ -39,7 +40,9 @@ Carlos Alonso Martínez 2023
 
 ### RA2. Gestiona servidors web avaluant i aplicant criteris de configuració per a l’accés segur als serveis.
 
+
 #### Criteris d’avaluació
+
 
 2.1 Reconeix els paràmetres d’administració més importants del servidor web.
 
@@ -61,7 +64,7 @@ Carlos Alonso Martínez 2023
 
 ### RA3. Administra servidors de transferència de fitxers avaluant i aplicant criteris de configuració que garanteixin la disponibilitat del servei.
 
-### Criteris d’avaluació
+#### Criteris d’avaluació
 
 3.1 Instal·la i configura servidors de transferència de fitxers.
 

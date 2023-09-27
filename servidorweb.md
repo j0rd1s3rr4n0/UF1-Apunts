@@ -92,3 +92,63 @@ En tots dos casos, s'estaria instal·lant la versió bàsica del servidor web, p
 
 ## Configuració d'un servidor web
 
+Ara ens centrarem en la configuració de Nginx, ja que és el servidor web que utilitzarem en aquest curs.
+
+### Configuració bàsica
+
+Els fitxers de configuració de Nginx es troben a la carpeta `/etc/nginx/`. El fitxer de configuració principal és `/etc/nginx/nginx.conf` i és el que s'ha d'editar per a canviar la configuració per defecte.
+
+```conf
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    include /etc/nginx/conf.d/*.conf;
+}
+```
+
+#### Número de connexions
+
+- **worker_processes** fixa el númer de processos que atenen peticions. El valor per defecte "auto" indica que s'utilitzaran tots els cores disponibles.
+- **worker_connections** indica el número simultani de connexions que pot atendre un worker. El valor per defecte és de 1024 (de fet, aquest és el valor màxima que pot tenir).
+
+D'aquesta manera, si volem saber el nombre màxim de connexions simultànies que pot atendre el servidor, només cal multiplicar el nombre de processos per el nombre de connexions per procés:
+
+> Nombre de connexions = worker_processes x worker_connections
+
+#### Usuari de treball
+
+Nginx utilitza un usuari per defecte per atendre les peticions. Aquest usuari és `nginx` i es pot canviar amb la directiva **user**.
+
+```bash
+cam@molnir:~$ ps aux | grep nginx | grep worker
+nginx     192386  0.0  0.1   9904  3760 ?        S    01:33   0:00 nginx: worker process
+nginx     192387  0.0  0.1   9904  3760 ?        S    01:33   0:00 nginx: worker process
+```
+
+És important tenir en compte que aquest usuari ha de tenir permisos per accedir als fitxers que s'han de servir.
