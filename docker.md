@@ -233,7 +233,7 @@ Això ens permet executar comandes en un contenidor que està en execució (si s
 
 Les imatges són les plantilles que permeten crear contenidors. Per defecte, Docker utilitza el registre de Docker Hub, però també podem utilitzar altres registres o crear-ne un de propi. I també podem crear imatges a partir d'altres imatges, això ens permetrà crear imatges personalitzades, per exemple, incloent la nostra aplicació web. Aquest és el mecanisme típic per desplegar aplicacions web via Docker.
 
-Un concepte molt important, és que les imatges són immutables, és a dir, que un cop creades, no es poden modificar. Per tant, si volem modificar una imatge, cal crear-ne una de nova a partir de l'original.
+Un concepte molt important, és que les imatges són immutables, és a dir, que un cop creades, no es poden modificar. Per tant, si volem modificar una imatge, cal crear-ne una de nova a partir de l'original. A UF3 veurem com crear imatges personalitzades mitjançant un fitxer de configuració anomenat `Dockerfile`.
 
 ### Model capes imatges
 
@@ -315,7 +315,7 @@ Els volums es poden crear de diferents maneres:
 - **Volums anònims**: són volums que es creen automàticament quan s'executa un contenidor i que no tenen cap nom. Són volums que s'eliminen quan s'elimina el contenidor.
 - **Volums nombrats**: són volums que es creen amb un nom i que es poden utilitzar per compartir dades entre contenidors o per mantenir les dades en l'equip host.
 - **Volums de tipus bind**: són volums que es creen a partir d'una carpeta de l'equip host i que es poden utilitzar per compartir dades entre contenidors o per mantenir les dades en l'equip host. Són ideals a la fase de desenvolupament, perquè em permeten utilitzar el meu entorn de treball per desenvolupar i el contenidor per executar l'aplicació.
-- **Volums de tipus tmpfs**: són volums que es creen en memòria, per tant, en eliminar el contenidor, s'eliminen les dades. 
+- **Volums de tipus tmpfs**: són volums que es creen en memòria, per tant, en eliminar el contenidor, s'eliminen les dades.
 
 ### Volums anònims
 
@@ -393,3 +393,77 @@ docker run -d -p 8080:80 --mount type=bind,target=/usr/share/nginx/html,source=$
 Docker Compose és una eina que permet gestionar contenidors de forma declarativa. Això vol dir, que en comptes de crear contenidors amb comandes, els creem amb fitxers de configuració. Això ens permet tenir un control més gran sobre els contenidors i també ens permet gestionar-los de forma més senzilla. A més, ens permetrà crear entorns amb més d'un contenidor, per exemple, un contenidor amb el servidor web i un altre amb la base de dades.
 
 Per crear un entorn de Docker Compose, haurem d'utilitzar un fitxer de configuració anomenat `docker-compose.yml`. Aquest arxiu definirà els diversos contenidors implicats, així com altres aspectes com són les xarxes, els volums, les variables d'entorn, etc.
+
+### Creant un entorn amb Docker Compose
+
+docker-compose.yml
+
+```yaml
+version: "3.9"
+services:
+  webserver:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html
+volumes:
+  web:
+```
+
+En aquest arxiu estem definint un contenidor anomenat `webserver` que utilitza la imatge `nginx` i que mapeja el port 80 del contenidor al port 8080 de l'equip host. A més, estem creant un volum anomenat `web` que es mapeja amb la carpeta `web` de l'equip host.
+
+Per arrancar l'entorn, només cal que executem la comanda `docker-compose up`:
+
+```powershell
+docker-compose up -d
+```
+
+Això crearà el contenidor i el volum i el posarà en execució. Si volem aturar l'entorn, només cal que executem la comanda `docker-compose down`:
+
+```powershell
+docker-compose down
+```
+
+Això elimina el contenidor però no el volum (persistència). Si volem eliminar també els volums per esborrar totes les dades:
+  
+  ```powershell
+docker-compose down -v
+```
+
+Un altre exemple més complex, amb un contenidor amb el servidor web i un altre amb la base de dades:
+docker-compose.yml
+
+```yaml
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
+```
+
+En aquest cas tenim un entorn per desplegar un WordPress, tenim dos serveis (contenidors), un amb el servidor web i un altre amb la base de dades. A més, tenim dos volums, un per la base de dades i un altre per les dades del WordPress. El servei de WordPress mapeja el port per ser accessible des de l'equip host i el servei de la base de dades no, perquè només es pot accedir des del servei de WordPress. Cal indicar, que tots dos contenidors, comparteixen la mateixa xarxa, per tant, es poden comunicar entre ells.
