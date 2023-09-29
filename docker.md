@@ -435,6 +435,7 @@ Un altre exemple més complex, amb un contenidor amb el servidor web i un altre 
 docker-compose.yml
 
 ```yaml
+version: "3.9"
 services:
 
   wordpress:
