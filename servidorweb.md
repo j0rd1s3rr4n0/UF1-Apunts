@@ -164,9 +164,7 @@ server {
     listen       80;
     server_name  localhost;
 
-    #charset koi8-r;
-    #access_log  /var/log/nginx/host.access.log  main;
-
+    
     root   /usr/share/nginx/html;
     index  index.html index.htm;
 
@@ -183,8 +181,6 @@ server {
     listen       80;
     server_name  www.example.com;
 
-    #charset koi8-r;
-    #access_log  /var/log/nginx/host.access.log  main;
 
     root   /usr/share/nginx/html/www.example.com;
     index  index.html index.htm;
@@ -193,11 +189,111 @@ server {
 }
 ```
 
-En aquest cas, el servidor web servirà els fitxers que es trobin a la carpeta `/usr/share/nginx/html/www.example.com`. Amb la directiva `index` indiquem els fitxers que es serviran per defecte quan es demani una carpeta, típicament un arxiu `index.html` o `index.php`.
+Amb la directiva `server_name` estem indicant que el servidor web atendrà les peticions que vagin dirigides al domini `www.example.com` amb aquesta host virtual, això ens permet tenir diversos dominis servits pel mateix servidor web (IP).
 
-A més amb la directiva `server_name` estem indicant que el servidor web atendrà les peticions que vagin dirigides al domini `www.example.com` amb aquesta host virtual, això ens permet tenir diversos dominis servits pel mateix servidor web (IP).
+A més, estem indicant la carpeta on es trobarà l'arrel del domini, en aquest cas `/usr/share/nginx/html/www.example.com` i els fitxers que s'utilitzaran com a pàgina d'inici, en aquest cas `index.html` i `index.htm`.
 
-#### Redireccions
+#### Errors
+
+Per configurar una pàgina d'error, s'ha d'afegir la directiva **error_page** al bloc de configuració del host virtual.
+
+```conf
+server {
+    listen       80;
+    server_name  www.example.com;
+
+
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    error_page 404 /404.html;
+}
+```
+
+Això serviria per redirigir a la pàgina `/404.html` quan es produeixi un error 404 (recurs no trobat). De la mateixa manera es poden configurar altres errors, com el 402 (prohibit), 403 (no autoritzat), etc.
+
+#### Altres Directives
+
+Hi ha moltes [directives](https://nginx.org/en/docs/dirindex.html) per a Nginx. En aquesta secció veurem els que es consideren més rellevants per a la implementació d’un servei web.
+
+##### Ubicacions (locations)
+
+Els virtualhosts permeten definir diferents ubicacions (locations) dins del mateix domini. Això permet servir diferents continguts en funció de la URL que s'ha sol·licitat.
+
+Les localitzacions s'hereden de la ruta principal, indicada amb la directiva `root`.
+
+```conf
+server {
+    listen       80;
+    server_name  www.example.com;
+
+
+
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    location /img {
+    ...
+    }
+
+    location /src {
+    ...
+    }
+
+}
+```
+
+Indicar que tant /img com /src "hereten" del root especificat al servidor amb `root`, quedant de la siguiente manera:
+
+- img → /user/share/nginx/html/www.example.com/img
+- src → /user/share/nginx/html/www.example.com/src
+
+Així, quan arriba una petició amb la URL `www.example.com/img/logo.png`, el servidor buscarà el fitxer `/user/share/nginx/html/www.example.com/img/logo.png`.
+
+Aquesta directiva permet utilitzar expressions regulars per a definir les localitzacions, que poden tenir en compte, com acaba la URL, si comença per una cadena determinada, etc.
+
+```conf
+server {
+    listen       80;
+    server_name  www.example.com;
+
+    
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    location ~* \.(gif|jpg|jpeg)$ {
+    ...
+    }
+
+    location ~* \.(css|js)$ {
+    ...
+    }
+
+}
+```
+
+La primera directiva `location` s'aplicarà per qualsevol URL que acabi amb gif, jpg o jpeg. La segona directiva `location` s'aplicarà per qualsevol URL que acabi amb css o js. Pot ser útil, quan per exemple el contingut multimèdia el tenim en una altra ubicació.
+
+##### Ports d'escolta
+
+Per defecte, el protocol HTTP utilitza el port 80 i el protocol HTTPS utilitza el port 443, però impedeix que podem canviar el port d'escolta amb la directiva **listen**.
+
+```conf
+server {
+    listen       8080;
+    server_name  www.example.com;
+
+    
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    # ...
+}
+```
+
+En aquest cas, el servidor web atendrà les peticions que vagin dirigides al port 8080.
+
+##### Redireccions
 
 Per redirigir una URL a una altra, s'ha d'afegir la directiva **return** al bloc de configuració del host virtual.
 
@@ -216,50 +312,6 @@ server {
 ;
 }
 ```
-
-#### Errors
-
-Per configurar una pàgina d'error, s'ha d'afegir la directiva **error_page** al bloc de configuració del host virtual.
-
-```conf
-server {
-    listen       80;
-    server_name  www.example.com;
-
-    #charset koi8-r;
-    #access_log  /var/log/nginx/host.access.log  main;
-
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    error_page 404 /404.html;
-}
-```
-
-Això serviria per redirigir a la pàgina `/404.html` quan es produeixi un error 404 (recurs no trobat). De la mateixa manera es poden configurar altres errors, com el 402 (prohibit), 403 (no autoritzat), etc.
-
-#### Ports d'escolta
-
-Per defecte, el protocol HTTP utilitza el port 80 i el protocol HTTPS utilitza el port 443, però impedeix que podem canviar el port d'escolta amb la directiva **listen**.
-
-```conf
-server {
-    listen       8080;
-    server_name  www.example.com;
-
-    #charset koi8-r;
-    #access_log  /var/log/nginx/host.access.log  main;
-
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    # ...
-}
-```
-
-En aquest cas, el servidor web atendrà les peticions que vagin dirigides al port 8080.
-
-#### Altres directives
 
 ### Mòduls
 
