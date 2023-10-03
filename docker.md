@@ -376,6 +376,17 @@ docker volume rm webdata
 webdata
 ```
 
+Per eliminar tots els volums que no estiguin en ús, podem utilitzar la comanda `volume prune`:
+
+```powershell
+docker volume prune
+WARNING! This will remove all local volumes not used by at least one container.
+Are you sure you want to continue? [y/N] y
+Deleted Volumes:
+5e535a490d64e574d2a6bbaf49e6c855104dfeefb565755bdfc1e85d1f830f89
+webdata
+```
+
 Un volum no es pot eliminar mentre tingui un contenidor associat, per tant, si volem eliminar un volum, cal que primer eliminem els contenidors.
 
 ### Volums de tipus bind
@@ -468,3 +479,5 @@ volumes:
 ```
 
 En aquest cas tenim un entorn per desplegar un WordPress, tenim dos serveis (contenidors), un amb el servidor web i un altre amb la base de dades. A més, tenim dos volums, un per la base de dades i un altre per les dades del WordPress. El servei de WordPress mapeja el port per ser accessible des de l'equip host i el servei de la base de dades no, perquè només es pot accedir des del servei de WordPress. Cal indicar, que tots dos contenidors, comparteixen la mateixa xarxa, per tant, es poden comunicar entre ells.
+
+Quan veiem els servidors d'aplicacions, veurem com gràcies a `Docker Composer` podem desplegar aplicacions de forma molt senzilla i eficient.

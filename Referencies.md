@@ -20,4 +20,10 @@
 
 ## Referències Instal·lació i configuració servidors transferència fitxers
 
+- [Protocol FTP](https://ca.wikipedia.org/wiki/Protocol_de_Transfer%C3%A8ncia_d%27Arxius)
+- [Protocol SFPT](https://ca.wikipedia.org/wiki/SSH_File_Transfer_Protocol)
+- [Introducció a la integració contínua](https://www.redhat.com/es/topics/devops/what-is-ci-cd)
+- [Jenkins](https://www.jenkins.io/)
+- [Entendre les GitHub Actions](https://docs.github.com/es/actions/learn-github-actions/understanding-github-actions)
+
 [Tornar inici](/README.md)

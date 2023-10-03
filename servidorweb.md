@@ -6,6 +6,8 @@
 - [Servidors web](#servidors-web)
 - [Instal·lació](#installació-dun-servidor-web)
 - [Configuració](#configuració-dun-servidor-web)
+- [Mòduls](#mòduls)
+- [Servidor web segur](#servidor-web-segur)
 - [Tornar a l'índex](/README.md)
 
 ## Introducció
@@ -152,3 +154,114 @@ nginx     192387  0.0  0.1   9904  3760 ?        S    01:33   0:00 nginx: worker
 ```
 
 És important tenir en compte que aquest usuari ha de tenir permisos per accedir als fitxers que s'han de servir.
+
+#### Carpeta arrel
+
+La carpeta arrel per defecte és `/usr/share/nginx/html`, però es pot canviar amb la directiva **root**.
+
+```conf
+server {
+    listen       80;
+    server_name  localhost;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+
+    # ...
+}
+```
+
+#### Host virtual
+
+Per configurar un host virtual, s'ha de crear un fitxer de configuració a la carpeta `/etc/nginx/conf.d/` amb el nom del domini que es vol servir. Per exemple, si es vol servir el domini `www.example.com`, s'ha de crear el fitxer `/etc/nginx/conf.d/www.example.com.conf` amb el següent contingut:
+
+```conf
+server {
+    listen       80;
+    server_name  www.example.com;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    # ...
+}
+```
+
+En aquest cas, el servidor web servirà els fitxers que es trobin a la carpeta `/usr/share/nginx/html/www.example.com`. Amb la directiva `index` indiquem els fitxers que es serviran per defecte quan es demani una carpeta, típicament un arxiu `index.html` o `index.php`.
+
+A més amb la directiva `server_name` estem indicant que el servidor web atendrà les peticions que vagin dirigides al domini `www.example.com` amb aquesta host virtual, això ens permet tenir diversos dominis servits pel mateix servidor web (IP).
+
+#### Redireccions
+
+Per redirigir una URL a una altra, s'ha d'afegir la directiva **return** al bloc de configuració del host virtual.
+
+```conf
+server {
+    listen       80;
+    server_name  www.example.com;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    return 301 https://example.com$request_uri;
+;
+}
+```
+
+#### Errors
+
+Per configurar una pàgina d'error, s'ha d'afegir la directiva **error_page** al bloc de configuració del host virtual.
+
+```conf
+server {
+    listen       80;
+    server_name  www.example.com;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    error_page 404 /404.html;
+}
+```
+
+Això serviria per redirigir a la pàgina `/404.html` quan es produeixi un error 404 (recurs no trobat). De la mateixa manera es poden configurar altres errors, com el 402 (prohibit), 403 (no autoritzat), etc.
+
+#### Ports d'escolta
+
+Per defecte, el protocol HTTP utilitza el port 80 i el protocol HTTPS utilitza el port 443, però impedeix que podem canviar el port d'escolta amb la directiva **listen**.
+
+```conf
+server {
+    listen       8080;
+    server_name  www.example.com;
+
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    root   /usr/share/nginx/html/www.example.com;
+    index  index.html index.htm;
+
+    # ...
+}
+```
+
+En aquest cas, el servidor web atendrà les peticions que vagin dirigides al port 8080.
+
+#### Altres directives
+
+### Mòduls
+
+### Servidor Web Segur
+
