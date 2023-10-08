@@ -17,6 +17,7 @@
 - [W3Techs: Usage of web servers for websites](https://w3techs.com/technologies/overview/web_server/all)
 - [Apache: Apache HTTP Server Version 2.4 Documentation](https://httpd.apache.org/docs/2.4/)
 - [Nginx: Documentation](https://nginx.org/en/docs/)
+- [Nginx: Beginner’s Guide](https://nginx.org/en/docs/beginners_guide.html)
 
 ## Referències Instal·lació i configuració servidors transferència fitxers
 

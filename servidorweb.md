@@ -218,9 +218,7 @@ Hi ha moltes [directives](https://nginx.org/en/docs/dirindex.html) per a Nginx. 
 
 ##### Ubicacions (locations)
 
-Els virtualhosts permeten definir diferents ubicacions (locations) dins del mateix domini. Això permet servir diferents continguts en funció de la URL que s'ha sol·licitat.
-
-Les localitzacions s'hereden de la ruta principal, indicada amb la directiva `root`.
+Els virtualhosts permeten definir diferents ubicacions (locations) dins del mateix domini. Això permet servir realitzar diferents accions en funció de la URL que s'ha sol·licitat.
 
 ```conf
 server {
@@ -262,7 +260,7 @@ server {
     index  index.html index.htm;
 
     location ~* \.(gif|jpg|jpeg)$ {
-    ...
+    root /data/images;
     }
 
     location ~* \.(css|js)$ {
@@ -272,7 +270,7 @@ server {
 }
 ```
 
-La primera directiva `location` s'aplicarà per qualsevol URL que acabi amb gif, jpg o jpeg. La segona directiva `location` s'aplicarà per qualsevol URL que acabi amb css o js. Pot ser útil, quan per exemple el contingut multimèdia el tenim en una altra ubicació.
+La primera directiva `location` s'aplicarà per qualsevol URL que acabi amb gif, jpg o jpeg. La segona directiva `location` s'aplicarà per qualsevol URL que acabi amb css o js. Pot ser útil, quan per exemple per canviar el comportament dels logs o canviar la ubicació on se'n va buscar els recursos.
 
 ##### Ports d'escolta
 
@@ -314,6 +312,10 @@ server {
 ```
 
 ### Mòduls
+
+Els mòduls són programes que s'afegeixen a un servidor web per aconseguir funcionalitats addicionals. Nginx té una arquitectura modular, que permet afegir aquests elements de forma dinàmica.
+
+
 
 ### Servidor Web Segur
 
