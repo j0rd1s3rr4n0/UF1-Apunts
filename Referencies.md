@@ -2,6 +2,8 @@
 
 ## Referències Implantació arquitecures web
 
+- [Conceptos básicos de HTTP](https://developer.mozilla.org/es/docs/Web/HTTP/Basics_of_HTTP)
+- [Qué es HTTP/3?](https://kinsta.com/es/blog/que-es-http3/)
 - [Ryte wiki: Web Architecture](https://en.ryte.com/wiki/Web_Architecture)
 - [Blog Reinvently: TheFundamentals of Web Application Architecture](https://reinvently.com/blog/fundamentals-web-application-architecture/)
 
@@ -17,7 +19,9 @@
 - [W3Techs: Usage of web servers for websites](https://w3techs.com/technologies/overview/web_server/all)
 - [Apache: Apache HTTP Server Version 2.4 Documentation](https://httpd.apache.org/docs/2.4/)
 - [Nginx: Documentation](https://nginx.org/en/docs/)
-- [Nginx: Beginner’s Guide](https://nginx.org/en/docs/beginners_guide.html)
+- [Apache: Tutorials for Beginners](https://www.guru99.com/apache.html)
+- [Curso: servidor web Apache 2.4](https://plataforma.josedomingo.org/pledin/cursos/apache24/index.html)
+- [Apache 2.4 desde cero. Tutorial paso a paso](https://informaticacoslada.com/apache-2-4-desde-cero-tutorial-paso-paso/)
 
 ## Referències Instal·lació i configuració servidors transferència fitxers
 

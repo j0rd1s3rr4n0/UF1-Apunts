@@ -23,7 +23,7 @@ A més es tracta d'un protocol **sense estat**, això vol dir que el servidor no
 
 Una característica és la utilització d'un model estàndard de noms, tots els servidors, així com el contingut de la WWW s'anomenen segons un localitzador uniforme de recursos (URL). Aquesta URL està formada per un protocol, un nom de domini i una ruta. A continuació es mostra un exemple d'una URL:
 
-```
+``` console
 https://www.example.com/index.html
 ```
 

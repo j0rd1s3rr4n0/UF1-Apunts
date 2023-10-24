@@ -94,228 +94,45 @@ En tots dos casos, s'estaria instal·lant la versió bàsica del servidor web, p
 
 ## Configuració d'un servidor web
 
-Ara ens centrarem en la configuració de Nginx, ja que és el servidor web que utilitzarem en aquest curs.
+Ara ens centrarem en la configuració de Apache, ja que és el servidor web que utilitzarem en aquest curs.
 
 ### Configuració bàsica
 
-Els fitxers de configuració de Nginx es troben a la carpeta `/etc/nginx/`. El fitxer de configuració principal és `/etc/nginx/nginx.conf` i és el que s'ha d'editar per a canviar la configuració per defecte.
-
-```conf
-user  nginx;
-worker_processes  auto;
-
-error_log  /var/log/nginx/error.log notice;
-pid        /var/run/nginx.pid;
-
-
-events {
-    worker_connections  1024;
-}
-
-
-http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
-
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log  /var/log/nginx/access.log  main;
-
-    sendfile        on;
-    #tcp_nopush     on;
-
-    keepalive_timeout  65;
-
-    #gzip  on;
-
-    include /etc/nginx/conf.d/*.conf;
-}
-```
 
 #### Número de connexions
 
-- **worker_processes** fixa el númer de processos que atenen peticions. El valor per defecte "auto" indica que s'utilitzaran tots els cores disponibles.
-- **worker_connections** indica el número simultani de connexions que pot atendre un worker. El valor per defecte és de 1024 (de fet, aquest és el valor màxima que pot tenir).
 
-D'aquesta manera, si volem saber el nombre màxim de connexions simultànies que pot atendre el servidor, només cal multiplicar el nombre de processos per el nombre de connexions per procés:
-
-> Nombre de connexions = worker_processes x worker_connections
 
 #### Usuari de treball
 
-Nginx utilitza un usuari per defecte per atendre les peticions. Aquest usuari és `nginx` i es pot canviar amb la directiva **user**.
 
-```bash
-cam@molnir:~$ ps aux | grep nginx | grep worker
-nginx     192386  0.0  0.1   9904  3760 ?        S    01:33   0:00 nginx: worker process
-nginx     192387  0.0  0.1   9904  3760 ?        S    01:33   0:00 nginx: worker process
-```
-
-És important tenir en compte que aquest usuari ha de tenir permisos per accedir als fitxers que s'han de servir.
 
 #### Carpeta arrel
 
-La carpeta arrel per defecte és `/usr/share/nginx/html`, però es pot canviar amb la directiva **root**.
-
-```conf
-server {
-    listen       80;
-    server_name  localhost;
-
-    
-    root   /usr/share/nginx/html;
-    index  index.html index.htm;
-
-    # ...
-}
-```
 
 #### Host virtual
 
-Per configurar un host virtual, s'ha de crear un fitxer de configuració a la carpeta `/etc/nginx/conf.d/` amb el nom del domini que es vol servir. Per exemple, si es vol servir el domini `www.example.com`, s'ha de crear el fitxer `/etc/nginx/conf.d/www.example.com.conf` amb el següent contingut:
 
-```conf
-server {
-    listen       80;
-    server_name  www.example.com;
-
-
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    # ...
-}
-```
-
-Amb la directiva `server_name` estem indicant que el servidor web atendrà les peticions que vagin dirigides al domini `www.example.com` amb aquesta host virtual, això ens permet tenir diversos dominis servits pel mateix servidor web (IP).
-
-A més, estem indicant la carpeta on es trobarà l'arrel del domini, en aquest cas `/usr/share/nginx/html/www.example.com` i els fitxers que s'utilitzaran com a pàgina d'inici, en aquest cas `index.html` i `index.htm`.
 
 #### Errors
 
-Per configurar una pàgina d'error, s'ha d'afegir la directiva **error_page** al bloc de configuració del host virtual.
 
-```conf
-server {
-    listen       80;
-    server_name  www.example.com;
-
-
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    error_page 404 /404.html;
-}
-```
-
-Això serviria per redirigir a la pàgina `/404.html` quan es produeixi un error 404 (recurs no trobat). De la mateixa manera es poden configurar altres errors, com el 402 (prohibit), 403 (no autoritzat), etc.
 
 #### Altres Directives
 
-Hi ha moltes [directives](https://nginx.org/en/docs/dirindex.html) per a Nginx. En aquesta secció veurem els que es consideren més rellevants per a la implementació d’un servei web.
 
 ##### Ubicacions (locations)
 
-Els virtualhosts permeten definir diferents ubicacions (locations) dins del mateix domini. Això permet servir realitzar diferents accions en funció de la URL que s'ha sol·licitat.
 
-```conf
-server {
-    listen       80;
-    server_name  www.example.com;
-
-
-
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    location /img {
-    ...
-    }
-
-    location /src {
-    ...
-    }
-
-}
-```
-
-Indicar que tant /img com /src "hereten" del root especificat al servidor amb `root`, quedant de la siguiente manera:
-
-- img → /user/share/nginx/html/www.example.com/img
-- src → /user/share/nginx/html/www.example.com/src
-
-Així, quan arriba una petició amb la URL `www.example.com/img/logo.png`, el servidor buscarà el fitxer `/user/share/nginx/html/www.example.com/img/logo.png`.
-
-Aquesta directiva permet utilitzar expressions regulars per a definir les localitzacions, que poden tenir en compte, com acaba la URL, si comença per una cadena determinada, etc.
-
-```conf
-server {
-    listen       80;
-    server_name  www.example.com;
-
-    
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    location ~* \.(gif|jpg|jpeg)$ {
-    root /data/images;
-    }
-
-    location ~* \.(css|js)$ {
-    ...
-    }
-
-}
-```
-
-La primera directiva `location` s'aplicarà per qualsevol URL que acabi amb gif, jpg o jpeg. La segona directiva `location` s'aplicarà per qualsevol URL que acabi amb css o js. Pot ser útil, quan per exemple per canviar el comportament dels logs o canviar la ubicació on se'n va buscar els recursos.
 
 ##### Ports d'escolta
 
-Per defecte, el protocol HTTP utilitza el port 80 i el protocol HTTPS utilitza el port 443, però impedeix que podem canviar el port d'escolta amb la directiva **listen**.
 
-```conf
-server {
-    listen       8080;
-    server_name  www.example.com;
-
-    
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    # ...
-}
-```
-
-En aquest cas, el servidor web atendrà les peticions que vagin dirigides al port 8080.
 
 ##### Redireccions
 
-Per redirigir una URL a una altra, s'ha d'afegir la directiva **return** al bloc de configuració del host virtual.
-
-```conf
-server {
-    listen       80;
-    server_name  www.example.com;
-
-    #charset koi8-r;
-    #access_log  /var/log/nginx/host.access.log  main;
-
-    root   /usr/share/nginx/html/www.example.com;
-    index  index.html index.htm;
-
-    return 301 https://example.com$request_uri;
-;
-}
-```
 
 ### Mòduls
-
-Els mòduls són programes que s'afegeixen a un servidor web per aconseguir funcionalitats addicionals. Nginx té una arquitectura modular, que permet afegir aquests elements de forma dinàmica.
-
-
 
 ### Servidor Web Segur
 
