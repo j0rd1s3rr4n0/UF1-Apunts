@@ -21,6 +21,12 @@ El port original d'escolta dels servidor http és el 80, però amb l'arribada de
 
 A més es tracta d'un protocol **sense estat**, això vol dir que el servidor no guarda cap informació sobre les peticions que li arriben, per tant, cada petició és independent de les altres.
 
+Una característica és la utilització d'un model estàndard de noms, tots els servidors, així com el contingut de la WWW s'anomenen segons un localitzador uniforme de recursos (URL). Aquesta URL està formada per un protocol, un nom de domini i una ruta. A continuació es mostra un exemple d'una URL:
+
+```
+https://www.example.com/index.html
+```
+
 ### Versions del protocol HTTP
 
 El protocol HTTP ha anat evolucionant al llarg dels anys, a continuació es mostren les versions més importants:
@@ -103,7 +109,9 @@ Una aplicació web necessita una estructura que permeti accedir des de diferents
 
 ### Arquitectura estàtica
 
-Es tracta d'una arquitectura molt senzilla, on el client fa una petició al servidor i aquest li retorna una pàgina web estàtica. Aquesta arquitectura és  senzilla, però no permet la interacció amb l'usuari. No requereixen l'existència d'un servidor d'aplicacions (no tenen backend) sinó únicament del servidor web.
+Es tracta d'una arquitectura molt senzilla, on el client fa una petició al servidor i aquest li retorna una pàgina web estàtica. Aquesta arquitectura és  senzilla, però no permet la interacció amb l'usuari. No requereixen l'existència d'un servidor d'aplicacions (no tenen backend) sinó únicament del contingut per ser interpretat pel client web (frontend): HTML, CSS, JavaScript, etc.
+
+Tot i que JavaScript és un estàndard de facto a l'hora de desenvolupar codi que sigui executat pel navegador, han aparegut alternatives com WebAssembly que permeten executar codi compilat en altres llenguatges com C, C++ o Rust.
 
 ![Arquitectura estàtica](/images/arquitectura-estatica.png)
 
