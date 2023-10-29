@@ -18,7 +18,7 @@ Carlos Alonso Martínez 2023
 
 ### RA1. Implanta arquitectures web analitzant i aplicant criteris de funcionalitat.
 
-#### Criteris d’avaluació
+#### RA1. Criteris d’avaluació
 
 1.1 Analitza aspectes generals d’arquitectures web, les seves característiques, els avantatges i els inconvenients.
 
@@ -40,9 +40,7 @@ Carlos Alonso Martínez 2023
 
 ### RA2. Gestiona servidors web avaluant i aplicant criteris de configuració per a l’accés segur als serveis.
 
-
-#### Criteris d’avaluació
-
+#### RA2. Criteris d’avaluació
 
 2.1 Reconeix els paràmetres d’administració més importants del servidor web.
 
@@ -64,7 +62,7 @@ Carlos Alonso Martínez 2023
 
 ### RA3. Administra servidors de transferència de fitxers avaluant i aplicant criteris de configuració que garanteixin la disponibilitat del servei.
 
-#### Criteris d’avaluació
+#### RA3. Criteris d’avaluació
 
 3.1 Instal·la i configura servidors de transferència de fitxers.
 
