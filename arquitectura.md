@@ -76,9 +76,9 @@ Content-Type: text/html
 
 Mètodes HTTP més utilitzats:
 
-- GET: Demana una representació del recurs especificat. Les peticions utilitzant el mètode GET només haurien de recuperar dades.
-- POST: Envia dades al servidor. Les dades s'envien al cos de la petició. Aquest mètode és utilitzat per enviar formularis HTML.
-- PUT: Crea un recurs al servidor.  
+- GET: Recupera el recurs demanat del servidor.
+- POST: Crea un nou recurs.
+- PUT: Actualitza o crea un recurs al servidor.  
 - DELETE: Elimina el recurs especificat.
 
 Altres mètodes HTTP:
@@ -90,6 +90,8 @@ Altres mètodes HTTP:
 - TRACE: Realitza una prova de bucle de retorn de missatges, per tant, retorna el que li enviem.
 
 Podeu trobar més detalls a la web de [Mozilla](https://developer.mozilla.org/es/docs/Web/HTTP/Methods)
+
+![Mètodes HTTP](/images/http-verbs.gif)
 
 ### Codis de resposta HTTP
 

@@ -94,45 +94,144 @@ En tots dos casos, s'estaria instal·lant la versió bàsica del servidor web, p
 
 ## Configuració d'un servidor web
 
-Ara ens centrarem en la configuració de Apache, ja que és el servidor web que utilitzarem en aquest curs.
+Ara ens centrarem a la configuració del servidor web Apache, que serà el que utilitzarem al llarg del curs, en aquest cas instal·lada en Debian.
 
-### Configuració bàsica
+Quan s'instal·la Apache ho fa com un servei, per tant, per a gestionar-lo s'utilitzaria actualment la comanda `systemctl`:
 
+`systemctl [start|stop|restart|reload|status] apache2`
 
-#### Número de connexions
+En el nostre cas, com utilitzarem contenidors, i en aquest cas `systemd` no està instal·lat, utilitzarem la comanda `service`:
 
+`service apache2 [start|stop|restart|reload|status]`
 
+### Control d'Apache
 
-#### Usuari de treball
+Apache proporciona la seva pròpia eina de control, `apachectl`, que ens permet fer les mateixes accions que `service`:
 
+`apachectl [start|stop|restart|graceful|graceful-stop|configtest|status]`
 
+L'opció *grateful* és un reinici suau, on es deixen finalitzar les peticions que estan establertes i el servidor no es reinicia fins que aquestes acaben.
 
-#### Carpeta arrel
+A més, `apachectl` ens permet fer altres accions, com ara:
 
+- `apachectl -t` o `apachectl configtest`: comprova la sintaxi dels fitxers de configuració i ens indica si hi ha algun error.
+- `apachectl -M` o `apachectl -l`: ens mostra els mòduls carregats.
+- `apachectl -S`: ens mostra els *VirtualHosts* configurats.
+- `apachectl -V`: ens mostra la versió d'Apache i la configuració amb la que s'ha compilat.
 
-#### Host virtual
+### Configuració d'Apache
 
+El directori base de la configuració d'Apache és `/etc/apache2`, on trobem els següents directoris:
 
+- `conf-available`: fitxers de configuració disponibles.
+- `conf-enabled`: fitxers de configuració habilitats.
+- `mods-available`: mòduls disponibles.
+- `mods-enabled`: mòduls habilitats.
+- `sites-available`: *VirtualHosts* disponibles.
+- `sites-enabled`: *VirtualHosts* habilitats.
 
-#### Errors
+A més, trobem els fitxers de configuració principals:
 
+- `apache2.conf`: fitxer de configuració principal d'Apache.
+- `envvars`: variables d'entorn d'Apache.
+- `magic`: fitxer de tipus de fitxers.
+- `ports.conf`: fitxer de configuració de ports.
+- `security.conf`: fitxer de configuració de seguretat.
+- `charset.conf`: fitxer de configuració de codificació de caràcters.
 
+A l'arxiu `apache2.conf` trobem la configuració principal d'Apache, dins hi trobem el seu conjunt de directives que defineixen el comportament. Els comentaris són per línia i van amb `#` al principi. Si hi ha directives no especificades, agafen el valor per defecte definit en la compilació. Amb la directiva Include es carreguen altres fitxers de configuració
 
-#### Altres Directives
+Dins l'arxiu `ports.conf` trobem la configuració dels ports que utilitza Apache. Per defecte, Apache escolta en el port 80 per HTTP i el 443 per HTTPS. Aquest fitxer només conté directives de configuració de ports, per tant, no es pot utilitzar per a altres directives. Un exemple del contingut d'aquest fitxer seria:
 
+```bash
+# If you just change the port or add more ports here, you will likely also
+# have to change the VirtualHost statement in
+# /etc/apache2/sites-enabled/000-default.conf
 
-##### Ubicacions (locations)
+Listen 80
 
+<IfModule ssl_module>
+        Listen 443
+</IfModule>
 
+<IfModule mod_gnutls.c>
+        Listen 443
+</IfModule>
+```
 
-##### Ports d'escolta
+### Directives principals
 
+Les dues primeres directives que ens han de servir són:
 
+- **DocumentRoot**: indica el directori on trobar els fitxers del nostre site/lloc web. Pot ser diferent per cada configuració de site - hosting virtual.
 
-##### Redireccions
+- **DirectoryIndex**: indica una llista de recursos, o fitxers, a buscar quan una petició client sol·licita una URL sense especificar el recurs.
 
+La directiva **Directory**  ens permet indicar una sèrie de paràmetres o configuracions per un directori en concret del sistema de fitxers. Apache, per defecte, no permet l'accés al directori de fitxers del sistema, excepte al directori /var/www.
 
-### Mòduls
+```bash
+<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+<Directory />
+        Options FollowSymLinks
+        AllowOverride None
+        Require all denied
+</Directory>
+```
 
-### Servidor Web Segur
+Apache utilitza variables d'entorn per tal d'emmagatzemar informació. S'utilitzen en el control d'accés, en la configuració de *VirtualHosts*, etc. Les variables d'entorn es defineixen amb la directiva **SetEnv** i es troben a l'arxiu `/etc/apache2/envvars`.
 
+Per defecte, els fitxers de log s'emmagatzemen a `/var/log/apache2`. Els fitxers de log són:
+
+- **access.log**: registra totes les peticions que rep el servidor web.
+- **error.log**: registra tots els errors que es produeixen al servidor web.
+- **other_vhosts_access.log**: registra les peticions que rep el servidor web per a altres *VirtualHosts*.
+
+### Funcionament d'Apache
+
+Un cop ens arriba la petició i se’n fa l’anàlisi de les capçaleres, hem de veure quina configuració de site cal aplicar-li. Cal que anem a `\etc\apache2\sites-enabled`. Per defecte ens trobarem la **000-default.conf**.
+
+Aquesta és l’entrada genèrica per quan no tenim l’apache configurat per atendre aquell domini o host en concret. Aquest nom es defineix a través de la directiva **ServerName**. En aquest fitxer, tenim definit l'entorn web per defecte amb la directiva VirtualHost des de l'etiqueta d'obertura a la de finalització.
+
+```bash
+<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+```
+
+En aquest fitxer hi ha configurat el mínim necessari:
+
+- **DocumentRoot /var/www/html**: especifica el directori on ha d'anar a buscar els fitxers de la web. En l'exemple /var/www/html.
+
+- **ErrorLog ${APACHE_LOG_DIR}/error.log**: especifica el fitxer on s'emmagatzemen els errors produits al servidor web, fins i tot els errors producte d'un error de codi en php. En lexemple s'utilitzen variables d'entorn del fitxer envvars
+
+- **CustomLog ${APACHE_LOG_DIR}/access.log combined**:especifica el fitxer on s'emmagatzemen els accessos o intents d'accés al servidor web.
