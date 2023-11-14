@@ -17,11 +17,11 @@ El protocol HTTP és el protocol que dona suport al servei WWW, és a dir, el pr
 
 Aquest protocol funciona seguint el **model client-servidor**, on el client és el navegador web i el servidor és el servidor web. El client envia una petició al servidor i aquest li respon amb una resposta.
 
-El port original d'escolta dels servidor http és el 80, però amb l'arribada dels servidors segurs, el port 443  s'ha convertit en el port més utilitzat.
+El port original d'escolta dels servidor HTTP és el 80, però amb l'arribada dels servidors segurs, el port 443  s'ha convertit en el port més utilitzat.
 
 A més es tracta d'un protocol **sense estat**, això vol dir que el servidor no guarda cap informació sobre les peticions que li arriben, per tant, cada petició és independent de les altres.
 
-Una característica és la utilització d'un model estàndard de noms, tots els servidors, així com el contingut de la WWW s'anomenen segons un localitzador uniforme de recursos (URL). Aquesta URL està formada per un protocol, un nom de domini i una ruta. A continuació es mostra un exemple d'una URL:
+Una característica és la utilització d'un model estàndard de noms, tots els servidors, així com el contingut de la WWW, s'anomenen segons un localitzador uniforme de recursos (URL). Aquesta URL està formada per un protocol, un nom de domini i una ruta. A continuació es mostra un exemple d'una URL:
 
 ``` console
 https://www.example.com/index.html
@@ -31,9 +31,9 @@ https://www.example.com/index.html
 
 El protocol HTTP ha anat evolucionant al llarg dels anys, a continuació es mostren les versions més importants:
 
-- HTTP/1.1: És la versió que es va utilitzar durant l'expansió del ´WWW´. Encara avui dia és utilitzada per diversos servidors web, però es troba en desús respecte versions posteriors.
-- HTTP/2: És la versió actual del protocol, és una versió molt més eficient que la seva antecessora, ja que permet la multiplexació de les peticions, és a dir, permet que el servidor pugui respondre a diverses peticions alhora, cosa que abans no era possible. Aquesta versió també permet la compressió de les dades, cosa que fa que el temps de resposta sigui molt més ràpid.
-- HTTP/3: És la versió més moderna del protocol, encara no està molt estesa, però es preveu que en un futur proper es converteixi en la versió més utilitzada. Aquesta versió utilitza el protocol UDP en comptes del protocol TCP, cosa que fa que el temps de resposta sigui molt més ràpid.
+- **HTTP/1.1**: És la versió que es va utilitzar durant l'expansió del `WWW`. Encara avui dia és utilitzada per diversos servidors web, però es troba en desús respecte versions posteriors.
+- **HTTP/2**: És la versió actual del protocol, és una versió molt més eficient que la seva antecessora, ja que permet la multiplexació de les peticions, és a dir, permet que el servidor pugui respondre a diverses peticions simultàniament, cosa que abans no era possible. Aquesta versió també permet la compressió de les dades, de manera que el temps de resposta sigui molt més ràpid.
+- **HTTP/3**: És la versió més moderna del protocol, encara no està molt estesa, però es preveu que en un futur proper es converteixi en la versió més utilitzada. Aquesta versió usa el protocol UDP en comptes del protocol TCP, amb la reducció del temps de resposta.
 
 ### Estructura d'una petició HTTP
 
@@ -111,13 +111,18 @@ Una aplicació web necessita una estructura que permeti accedir des de diferents
 
 ### Arquitectura estàtica
 
-Es tracta d'una arquitectura molt senzilla, on el client fa una petició al servidor i aquest li retorna una pàgina web estàtica. Aquesta arquitectura és  senzilla, però no permet la interacció amb l'usuari. No requereixen l'existència d'un servidor d'aplicacions (no tenen backend) sinó únicament del contingut per ser interpretat pel client web (frontend): HTML, CSS, JavaScript, etc.
+Es tracta d'una arquitectura molt senzilla, on el client fa una petició al servidor i aquest li retorna una pàgina web estàtica. Aquesta arquitectura és  senzilla, no requereixen l'existència d'un servidor d'aplicacions (no tenen backend) sinó únicament del contingut per ser interpretat pel client web (frontend): HTML, CSS, JavaScript, etc. Que sigui estàtica vol dir que el que envia el servidor web és sempre el mateix, no hi ha cap tipus de processament de dades. Ara, això no vol dir que la pàgina web no pugui ser interactiva, ja que això es pot aconseguir amb JavaScript o altres tipus d'scripts.
 
 Tot i que JavaScript és un estàndard de facto a l'hora de desenvolupar codi que sigui executat pel navegador, han aparegut alternatives com WebAssembly que permeten executar codi compilat en altres llenguatges com C, C++ o Rust.
 
 ![Arquitectura estàtica](/images/arquitectura-estatica.png)
 
 Una evolució d'aquesta arquitectura, són els generadors de pàgines estàtiques, que són programes que generen pàgines web estàtiques a partir de contingut dinàmic. Aquests generadors són molt útils per a la creació de blogs, ja que permeten crear pàgines web estàtiques a partir de contingut dinàmic. Exemples d'aquests generadors són [Jekyll](https://jekyllrb.com/) o [Hugo](https://gohugo.io/).
+
+Aquí alguns exemples de web estàtiques:
+
+- [Blog personal amb Jekyll](http://cristinafsanz.github.io/projects/)
+- [Presentació amb WebSlides](https://cristinafsanz.github.io/melies-origen/#slide=1)
 
 ### Arquitectura dinàmica
 
