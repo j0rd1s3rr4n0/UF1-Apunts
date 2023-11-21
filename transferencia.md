@@ -1,12 +1,14 @@
 # Transferència de fitxers
 
+Un cop hem desenvolupat la nostra pàgina web en local, hem de transferir-la al servidor remot. Per realitzar aquest procés, tradicionalment s'utilitzava el protocol FTP (File Transfer Protocol), però actualment, han aparegut altres protocols que ofereixen més seguretat i un desplegament molt més àgil, en consonància amb la filosofia de desplegament continu (CD).
+
+## Taula de continguts
+
 - [Protocol FTP](#ftp-file-transfer-protocol--rfc-959)
 - [Protocol FTPes](#ftpes-ftp-over-explicit-tlsssl--rfc-4217)
 - [Protocol SFTP](#sftp-ssh-file-transfer-protocol--rfc-4253)
 - [Desplegament continu (CD)](#desplegament-continu-cd)
 - [Tornar a l'índex](/README.md)
-
-Un cop hem desenvolupat la nostra pàgina web en local, hem de transferir-la al servidor remot. Per realitzar aquest procés, tradicionalment s'utilitzava el protocol FTP (File Transfer Protocol), però actualment, han aparegut altres protocols que ofereixen més seguretat i un desplegament molt més àgil, en consonància amb la filosofia de desplegament continu (CD).
 
 ## FTP. File Transfer Protocol- RFC 959
 
