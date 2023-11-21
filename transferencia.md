@@ -1,5 +1,11 @@
 # Transferència de fitxers
 
+- [Protocol FTP](#ftp-file-transfer-protocol--rfc-959)
+- [Protocol FTPes](#ftpes-ftp-over-explicit-tlsssl--rfc-4217)
+- [Protocol SFTP](#sftp-ssh-file-transfer-protocol--rfc-4253)
+- [Desplegament continu (CD)](#desplegament-continu-cd)
+- [Tornar a l'índex](/README.md)
+
 Un cop hem desenvolupat la nostra pàgina web en local, hem de transferir-la al servidor remot. Per realitzar aquest procés, tradicionalment s'utilitzava el protocol FTP (File Transfer Protocol), però actualment, han aparegut altres protocols que ofereixen més seguretat i un desplegament molt més àgil, en consonància amb la filosofia de desplegament continu (CD).
 
 ## FTP. File Transfer Protocol- RFC 959
@@ -30,7 +36,7 @@ El desplegament continu (CD) és una pràctica de desenvolupament de software en
 
 Per a automatitzar aquest procés, s'utilitzen sistemes de control de versions com Git i sistemes de desplegament continu com Travis CI, GitHub Actions, Jenkins, CircleCI, etc.
 
-## Exemple de transferir cap GitHub Pages
+### Exemple de transferir cap GitHub Pages
 
 GitHub Pages és un servei de hosting gratuït per a pàgines web estàtiques. Per a utilitzar aquest servei, només cal crear un repositori amb el nom de usuari de GitHub i el nom del repositori, per exemple, si el nostre usuari és `daw-mataro-epiaedu` i el nom del repositori és `UF1-apunts`, la URL de la pàgina web serà `https://daw-mataro-epiaedu.github.io/UF1-Apunts/`.
 
