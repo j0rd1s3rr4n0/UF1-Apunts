@@ -262,11 +262,11 @@ Existeixen multitud de mòduls disponibles per apache, es pot consultar la llist
 
 [Llistat de mòduls d'Apache](https://httpd.apache.org/docs/2.4/en/mod/)
 
+### Instal·lar i habilitar el mòdul libapache2-mod-php
+
 Un exemple habitual, és el mòdul de l'intèrpret de PHP. Cal que el sistema pugui interpretar el PHP i el mòdul ho lligui amb l’apache. Si instal·leu el mòdul, per dependències ja us instal·larà el motor base de PHP.
 
 Per comprovar la versió que m'instal·larà es pot utilitzar la comanda, semblant a la instal·lació del servidor apache2 `apt-cache policy libapache2-mod-php`.
-
-### Instal·lar i habilitar el mòdul libapache2-mod-php
 
 El que fa el mòdul es passar pel motor de PHP (a través d’un handler) tots aquells fitxers amb extensió .php (i phps, phtml, phar).
 
@@ -303,12 +303,28 @@ El protocol https és una versió segura del protocol http. Per aconseguir aques
 
 El protocol https utilitza un certificat per verificar l'autenticitat del servidor web i per xifrar les dades que s'envien al servidor web. El certificat és emès per una autoritat de certificació (CA) i conté el nom del domini, el nom de l'empresa, l'adreça, la ciutat, el país i el període de validesa del certificat.
 
+En el servidor apache hi ha un mòdul que s'encarrega d'habilitar l'ús el protocol TLS/SSL, aquest mòdul és el `ssl_module`. Per habilitar-lo s'utilitza la comanda `a2enmod`:
+
+```bash
+a2enmod ssl
+```
+
 ### Certificats
 
 Un certificat és un fitxer de dades que conté informació sobre l'entitat que el va emetre, el nom de domini per al qual es va emetre, el nom de l'empresa, l'adreça, la ciutat, el país i el període de validesa del certificat. El certificat també conté la clau pública del servidor web.
 
 Un certificat és emès per una autoritat de certificació (CA). Una CA és una entitat que emet certificats i garanteix la identitat del propietari del certificat. Els certificats són emesos per una CA i són signats per la CA. El navegador web confia en la CA i, per tant, confia en el certificat emès per la CA.
 
+![Certificat](/images/certificat.png)
+
 Normalment, les CA cobren una quota per emetre un certificat, amb l'objectiu que qualsevol domini pugui disposar del seu certificat, entre d'altres coses perquè amb HTTP/2 és obligatori l'ús de HTTPS, va nèixer la iniciativa [Let's Encrypt](https://letsencrypt.org/) que ofereix certificats gratuïts.
+
+### Habilitar lloc segur
+
+Per habilitar un lloc segur, es pot utilitzar com a plantilla, l'arxiu `default-ssl.conf` que es troba a `/etc/apache2/sites-available/`. Un cop copiem l'arxiu i el modifiquem per adaptar-la al nostre cas: nom del site, ruta, certificat, etc. cal habilitar-lo amb la comanda `a2ensite`.
+
+```bash
+a2ensite nomdelmeusite
+```
 
 [Tornar a l'inici](#taula-de-continguts)
