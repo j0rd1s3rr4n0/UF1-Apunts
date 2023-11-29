@@ -343,7 +343,7 @@ Tot i que aquesta opció encara és vàlida, Docker recomana utilitzar la opció
 docker run -d -p 8080:80 --mount type=volume,target=/usr/share/nginx/html nginx
 ```
 
-Estem creant un volum anònim. Aquest volum es crea automàticament i no té cap nom, però s'identifica amb un VOLUME ID, que serà un hash. És important tenir clar, que aquest volum té la vida que tingui el contenidor, si aquest s'elimina, el volum també és eliminat.
+Estem creant un volum anònim. Aquest volum es crea automàticament i no té cap nom, però s'identifica amb un VOLUME ID, que serà un hash.
 
 ```powershell
 docker volume ls
