@@ -143,9 +143,21 @@ docker run -d -p 8080:80 nginx
 ed2aabfd9ea438f7553ab8ca5b545c3de0985078eb52ab433b8d06bb2faee6e6
 ```
 
-El `-d` indica que s'executa en mode *dimoni* (en background) i el `-p` indica que el port 80 del contenidor es mapeja al port 8080 de l'equip host. Els contenidors, per defecte, s'executen en una xarxa interna que Docker gestiona, però si volem que el contenidor sigui accessible des de l'equip host, cal mapejar els ports.
+El `-d` indica que s'executa en mode *dimoni* (en background) i el `-p` indica que el port 80 del contenidor es mapeja al port 8080 de l'equip host.
 
 ![Contenidor Nginx](/images/docker/docker-nginx.png)
+
+## Publicant ports
+
+Els contenidors, per defecte, s'executen en una xarxa interna que Docker gestiona, però si volem que el contenidor sigui accessible des de l'equip host, cal mapejar els ports. Això és molt útil per exemple, perquè el nostre servidor web sigui accessible des de l'equip host.
+
+Per mapejar un port, utilitzem l'opció `-p`:
+
+```powershell
+docker run -d -p 8080:80 nginx
+```
+
+En aquest cas, estem mapejant el port 80 del contenidor al port 8080 de l'equip host. Això vol dir, que si accedim a l'adreça `http://localhost:8080` des del navegador, veurem el servidor web Nginx.
 
 ## Gestionant contenidors
 
