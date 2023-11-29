@@ -38,11 +38,11 @@ Ara farem una introducció a l'ús de Docker a l'equip client, perquè serà amb
 Per instal·lar Docker en un sistema Windows 10, cal seguir els següents passos:
 
 - Instal·lar WSL2 (Windows Subsystem for Linux 2)[link](https://learn.microsoft.com/en-us/windows/wsl/install)
-- Instal·lar Docker Desktop[link](https://docs.docker.com/docker-for-windows/install/)
+- Instal·lar Docker Desktop [link](https://docs.docker.com/docker-for-windows/install/)
 
 Per instal·lar Docker en un sistema macOS, cal seguir els següents passos:
 
-- Instal·lar Docker Desktop[link](https://docs.docker.com/docker-for-mac/install/)
+- Instal·lar Docker Desktop [link](https://docs.docker.com/docker-for-mac/install/)
 
 A part d'instal·lar-nos el programa, també ens instal·larà la CLI de Docker, que ens permetrà gestionar els contenidors des de la terminal.
 
