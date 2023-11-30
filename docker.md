@@ -104,15 +104,17 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
+Ja podeu veure que un contenidor executa un procés i que quan acaba aquest procés, el contenidor s'atura.
+
 ### Contenidors interactius
 
-Ara que ja sabem com crear un contenidor, podem crear-ne un de més interactiu, per exemple, un contenidor Ubuntu amb una consola de bash:
+Ara que ja sabem com crear un contenidor, podem crear-ne un d'interactiu, per exemple, un contenidor Ubuntu amb una consola de bash:
 
 ```powershell
 docker run -it ubuntu /bin/bash
 ```
 
-Això ens obrirà un contenidor Ubuntu amb un terminal bash. Observeu com l'usuari del contenidor és **root**. Això és una característica de Docker, ja que els contenidors són entorns aïllats, per tant, no afecta a l'entorn de l'equip host.
+Això ens obrirà un contenidor Ubuntu amb un terminal bash. Observeu com l'usuari del contenidor és **root**. Això és una altra característica de Docker, per defecte, l'usuari amb el que s'executa a dinsd de l'entorn del contenidor és root.
 
 ```powershell
 root@8c03b7617fe3:/# 
@@ -132,11 +134,11 @@ UBUNTU_CODENAME=jammy
 root@8c03b7617fe3:/# 
 ```
 
-Si volem sortir del contenidor, podem fer-ho amb la comanda `exit`.
+Si volem sortir del contenidor, podem fer-ho amb la comanda `exit`. En sortir, el contenidor s'atura.
 
 ### Contenidors en background
 
-Els contenidors que hem creat fins ara són interactius, però també podem crear contenidors que s'executin en background, per exemple, un contenidor amb un servidor web Nginx:
+Els contenidors que hem creat fins ara s'executen en primer pla, però també podem crear contenidors que s'executin en background, per exemple, un contenidor amb un servidor web Nginx:
 
 ```powershell
 docker run -d -p 8080:80 nginx
@@ -146,6 +148,8 @@ ed2aabfd9ea438f7553ab8ca5b545c3de0985078eb52ab433b8d06bb2faee6e6
 El `-d` indica que s'executa en mode *dimoni* (en background) i el `-p` indica que el port 80 del contenidor es mapeja al port 8080 de l'equip host. Els contenidors, per defecte, s'executen en una xarxa interna que Docker gestiona, però si volem que el contenidor sigui accessible des de l'equip host, cal mapejar els ports.
 
 ![Contenidor Nginx](/images/docker/docker-nginx.png)
+
+Això és útil perquè no ocupa el terminal de l'equip. En aquest cas, el contenidor com executa un procés que no finalitza, es queda executant-se en segon pla.
 
 ## Gestionant contenidors
 
@@ -233,7 +237,7 @@ Això ens permet executar comandes en un contenidor que està en execució (si s
 
 Les imatges són les plantilles que permeten crear contenidors. Per defecte, Docker utilitza el registre de Docker Hub, però també podem utilitzar altres registres o crear-ne un de propi. I també podem crear imatges a partir d'altres imatges, això ens permetrà crear imatges personalitzades, per exemple, incloent la nostra aplicació web. Aquest és el mecanisme típic per desplegar aplicacions web via Docker.
 
-Un concepte molt important, és que les imatges són immutables, és a dir, que un cop creades, no es poden modificar. Per tant, si volem modificar una imatge, cal crear-ne una de nova a partir de l'original. A UF3 veurem com crear imatges personalitzades mitjançant un fitxer de configuració anomenat `Dockerfile`.
+Un concepte molt important, és que les imatges són immutables, és a dir, que un cop creades, no es poden modificar. Per tant, si volem modificar una imatge, cal crear-ne una de nova a partir de l'original. A UF3 veurem com crear imatges personalitzades mitjançant un fitxer de configuració anomenat `Dockerfile`. Això ens permetrà empaquetar la nostra aplicació en una imatge per ser executada posteriorment pels servidors.
 
 ### Model capes imatges
 
@@ -331,7 +335,7 @@ Tot i que aquesta opció encara és vàlida, Docker recomana utilitzar la opció
 docker run -d -p 8080:80 --mount type=volume,target=/usr/share/nginx/html nginx
 ```
 
-Estem creant un volum anònim. Aquest volum es crea automàticament i no té cap nom, però s'identifica amb un VOLUME ID, que serà un hash. És important tenir clar, que aquest volum té la vida que tingui el contenidor, si aquest s'elimina, el volum també és eliminat.
+Estem creant un volum anònim. Aquest volum es crea automàticament i no té cap nom, però s'identifica amb un VOLUME ID, que serà un hash.
 
 ```powershell
 docker volume ls
