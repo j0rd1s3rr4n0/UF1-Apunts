@@ -1,0 +1,9 @@
+USE Music;
+GO
+CREATE TABLE Artists (
+    ArtistId int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    ArtistName nvarchar(255) NOT NULL,
+    ActiveFrom DATE NULL
+);
+
+GO
