@@ -7,5 +7,5 @@ Com la carpeta la tenim al notre equip, podem editar i modificar la web mentre l
 Procediment:
 
 ``` language=bash
-docker run -it --rm -v $(pwd)/html:/usr/share/nginx/html -p 80:80 nginx
+docker run -it --rm -v ${pwd}/html:/usr/share/nginx/html -p 80:80 nginx
 ```
