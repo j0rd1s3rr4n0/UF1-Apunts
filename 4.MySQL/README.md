@@ -14,7 +14,7 @@ Per connectar-se a la base de dades podeu eines com [MySQL WorkBench](https://ww
 Amb l'extensió MySQL dona un error si intenteu contactar amb l'usuari `root`. La solució és crear un usuari nou i connectar-se amb aquest usuari. Per crear un usuari, caldrà en primer lloc, haurem d'entrar dins el contenidor de mySQL:
 
 ```bash
-sudo docker -it mysql_db bash
+docker exec -it mysql_db bash
 ```
 
 Un cop dins el contenidor, crearem un usuari nou:
